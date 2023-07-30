@@ -1,0 +1,42 @@
+[
+  {
+    "Id": 1,
+    "FirstName": "Kayli",
+    "LastName": "Reilly",
+    "BirthDate": "13.06.2021",
+    "Age": 2,
+    "Gender": 0
+  },
+  {
+    "Id": 2,
+    "FirstName": "Franz",
+    "LastName": "Koepp",
+    "BirthDate": "04.11.2015",
+    "Age": 7,
+    "Gender": 1
+  },
+  {
+    "Id": 3,
+    "FirstName": "Amelie",
+    "LastName": "Monahan",
+    "BirthDate": "22.12.2018",
+    "Age": 4,
+    "Gender": 1
+  },
+  {
+    "Id": 4,
+    "FirstName": "Nola",
+    "LastName": "Wilderman",
+    "BirthDate": "06.06.2013",
+    "Age": 10,
+    "Gender": 0
+  },
+  {
+    "Id": 5,
+    "FirstName": "Alberta",
+    "LastName": "DuBuque",
+    "BirthDate": "24.11.2019",
+    "Age": 3,
+    "Gender": 1
+  }
+]

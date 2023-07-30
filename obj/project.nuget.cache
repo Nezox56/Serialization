@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "4mVxYJrnhv/ScYWham2HUz7+kZuuAwNJzeXugson1+ahClR9Her7G/PjKlV69YtBsDzJKgTEP6iop+BL5rIxcQ==",
+  "success": true,
+  "projectFilePath": "E:\\ProjectC#\\Serialization\\Serialization.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Nerzul\\.nuget\\packages\\faker.net\\2.0.154\\faker.net.2.0.154.nupkg.sha512",
+    "C:\\Users\\Nerzul\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\Nerzul\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
