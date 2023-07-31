@@ -71,23 +71,23 @@ namespace App
 
         private static void Main(string[] args)
         {
-            List<Person> person = new List<Person>();
+            List<Person> persons = new List<Person>();
 
-            person = GeneratePersonList(10000);
+            persons = GeneratePersonList(10000);
 
             var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             var file = "Persons.json";
             string filePath = $@"{desktopPath}\{file}";
 
-            SerializeJson(person, filePath);
+            SerializeJson(persons, filePath);
 
-            person.Clear();
+            persons.Clear();
 
-            person = DeserializeJson(filePath);
+            persons = DeserializeJson(filePath);
 
-            Console.WriteLine($"Persons count is {person.Count()}");
-            Console.WriteLine($"Credit cards count is {GetCreditCardsCount(person)}");
-            Console.WriteLine($"Average children age is {GetChildAverage(person)}");
+            Console.WriteLine($"Persons count is {persons.Count()}");
+            Console.WriteLine($"Credit cards count is {GetCreditCardsCount(persons)}");
+            Console.WriteLine($"Average children age is {GetChildAverage(persons)}");
         }
 
         private static List<Person> GeneratePersonList(int count)
