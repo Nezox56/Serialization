@@ -71,34 +71,34 @@ namespace App
 
         private static void Main(string[] args)
         {
-            List<Person> persons = new List<Person>();
+            List<Person> person = new List<Person>();
 
-            persons = GeneratePersonList(10000);
+            person = GeneratePersonList(10000);
 
             var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             var file = "Persons.json";
             string filePath = $@"{desktopPath}\{file}";
 
-            SerializeJson(persons, filePath);
+            SerializeJson(person, filePath);
 
-            persons.Clear();
+            person.Clear();
 
-            persons = DeserializeJson(filePath);
+            person = DeserializeJson(filePath);
 
-            Console.WriteLine($"Persons count is {persons.Count()}");
-            Console.WriteLine($"Credit cards count is {GetCreditCardsCount(persons)}");
-            Console.WriteLine($"Average children age is {GetChildAverage(persons)}");
+            Console.WriteLine($"Persons count is {person.Count()}");
+            Console.WriteLine($"Credit cards count is {GetCreditCardsCount(person)}");
+            Console.WriteLine($"Average children age is {GetChildAverage(person)}");
         }
 
         private static List<Person> GeneratePersonList(int count)
         {
             Random random = new Random();
 
-            List<Person> array = new List<Person>();
+            List<Person> personList = new List<Person>();
 
             for (int i = 1; i <= count; i++)
             {
-                array.Add(new Person
+                personList.Add(new Person
                 {
                     Id = i,
                     TransportId = Guid.NewGuid(),
@@ -108,7 +108,7 @@ namespace App
                     CreditCardNumbers = new[] { $"{GetRandomCreditCardNumbers()}", $"{GetRandomCreditCardNumbers()}" },
                     Age = random.Next(18, 100),
                     Phones = new[] { $"{GetRandomPhone()}", $"{GetRandomPhone()}" },
-                    BirthDate = GetRandomBirthDate(7000, 35000),  //7к-19лет 35к-96лет
+                    BirthDate = GetRandomBirthDate(7000, 35000), 
                     Salary = random.NextDouble(),
                     IsMarred = random.Next(2) == 0 ? false : true,
                     Gender = random.Next(2) == 0 ? Gender.Male : Gender.Female,
@@ -123,7 +123,7 @@ namespace App
                 }
                 });
             }
-            return array;
+            return personList;
         }
 
         public static long GetRandomBirthDate(int min, int max)
@@ -131,9 +131,7 @@ namespace App
             Random random = new Random();
 
             DateTime day = DateTime.Today.AddDays(-random.Next(min, max));
-            long unixTime = ((DateTimeOffset)day).ToUnixTimeSeconds();
-
-            return unixTime;
+            return ((DateTimeOffset)day).ToUnixTimeSeconds();
         }
 
         public static string GetRandomPhone()
@@ -148,12 +146,12 @@ namespace App
             return random.NextInt64(1000000000000000, 9999999999999999);
         }
 
-        public static void SerializeJson(List<Person> array, string filePath)
+        public static void SerializeJson(List<Person> personList, string filePath)
         {
             using (StreamWriter fwriter = new StreamWriter(filePath))
             {
                 var options = new JsonSerializerOptions { WriteIndented = true};
-                fwriter.WriteLine(System.Text.Json.JsonSerializer.Serialize(array, options));
+                fwriter.WriteLine(System.Text.Json.JsonSerializer.Serialize(personList, options));
             }
         }
 
@@ -165,11 +163,11 @@ namespace App
             }
         }
 
-        public static long GetChildAverage(List<Person> array)
+        public static long GetChildAverage(List<Person> personList)
         {
             long ageAvg, sum = 0;
 
-            foreach (Person p in array)
+            foreach (Person p in personList)
             {
                 if (p.Children != null)
                 {
@@ -180,23 +178,22 @@ namespace App
                 }
             }
 
-            ageAvg = sum / array.Count;
+            ageAvg = sum / personList.Count;
 
             return ageAvg;
         }
 
-        public static int GetCreditCardsCount(List<Person> array)
+        public static int GetCreditCardsCount(List<Person> personList)
         {
             int count = 0;
 
-            foreach (Person p in array)
+            foreach (Person p in personList)
             {
                 if (p.CreditCardNumbers != null)
                 {
                     count += p.CreditCardNumbers.Length;
                 }
             }
-
             return count;
         }
     }
