@@ -71,45 +71,44 @@ namespace App
 
         private static void Main(string[] args)
         {
-            List<Person> person = new List<Person>();
-            Person[] personMas;
+            List<Person> persons = new List<Person>();
 
-            person = GeneratePersonList(10000);
+            persons = GeneratePersonList(10000);
 
-            var desctopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             var file = "Persons.json";
-            string filePath = $@"{desctopPath}\{file}";
+            string filePath = $@"{desktopPath}\{file}";
 
-            DoSerializeJson(person, filePath);
+            SerializeJson(persons, filePath);
 
-            person.Clear();
+            persons.Clear();
 
-            personMas = DoDeserializeJson(filePath);
+            persons = DeserializeJson(filePath);
 
-            Console.WriteLine($"Persons count is {personMas.Count()}");
-            Console.WriteLine($"Credit cards count is {GetCreditCardsCount(personMas)}");
-            Console.WriteLine($"Average children age is {GetChildAverage(personMas)}");
+            Console.WriteLine($"Persons count is {persons.Count()}");
+            Console.WriteLine($"Credit cards count is {GetCreditCardsCount(persons)}");
+            Console.WriteLine($"Average children age is {GetChildAverage(persons)}");
         }
 
         private static List<Person> GeneratePersonList(int count)
         {
             Random random = new Random();
 
-            List<Person> people = new List<Person>();
+            List<Person> array = new List<Person>();
 
             for (int i = 1; i <= count; i++)
             {
-                people.Add(new Person
+                array.Add(new Person
                 {
                     Id = i,
                     TransportId = Guid.NewGuid(),
                     FirstName = Faker.Name.First(),
                     LastName = Faker.Name.Last(),
                     SequenceId = i,
-                    CreditCardNumbers = new[] { $"{GetRandomCreditCardNumbers(random)}", $"{GetRandomCreditCardNumbers(random)}" },
+                    CreditCardNumbers = new[] { $"{GetRandomCreditCardNumbers()}", $"{GetRandomCreditCardNumbers()}" },
                     Age = random.Next(18, 100),
-                    Phones = new[] { $"{GetRandomPhone(random)}", $"{GetRandomPhone(random)}" },
-                    BirthDate = GetRandomBirthDate(7000, 35000, random),  //7к-19лет 35к-96лет
+                    Phones = new[] { $"{GetRandomPhone()}", $"{GetRandomPhone()}" },
+                    BirthDate = GetRandomBirthDate(7000, 35000),  //7к-19лет 35к-96лет
                     Salary = random.NextDouble(),
                     IsMarred = random.Next(2) == 0 ? false : true,
                     Gender = random.Next(2) == 0 ? Gender.Male : Gender.Female,
@@ -118,60 +117,59 @@ namespace App
                         Id = i,
                         FirstName = Faker.Name.First(),
                         LastName = Faker.Name.Last(),
-                        BirthDate = GetRandomBirthDate(0, 5000, random),
+                        BirthDate = GetRandomBirthDate(0, 5000),
                         Gender =  random.Next(2) == 0 ? Gender.Male : Gender.Female
                     }
                 }
                 });
             }
-
-            return people;
+            return array;
         }
 
-        public static long GetRandomBirthDate(int min, int max, Random random)
+        public static long GetRandomBirthDate(int min, int max)
         {
-            DateTime day = DateTime.Today.AddDays(-random.Next(min, max));
+            Random random = new Random();
 
+            DateTime day = DateTime.Today.AddDays(-random.Next(min, max));
             long unixTime = ((DateTimeOffset)day).ToUnixTimeSeconds();
 
             return unixTime;
         }
 
-        public static string GetRandomPhone(Random random)
+        public static string GetRandomPhone()
         {
+            Random random = new Random();
             return random.NextInt64(79000000000, 79999999999).ToString();
         }
 
-        public static long GetRandomCreditCardNumbers(Random random)
+        public static long GetRandomCreditCardNumbers()
         {
+            Random random = new Random();
             return random.NextInt64(1000000000000000, 9999999999999999);
         }
 
-        public static void DoSerializeJson(List<Person> person, string filePath)
+        public static void SerializeJson(List<Person> array, string filePath)
         {
             using (StreamWriter fwriter = new StreamWriter(filePath))
             {
                 var options = new JsonSerializerOptions { WriteIndented = true};
-                fwriter.WriteLine(System.Text.Json.JsonSerializer.Serialize(person, options));
+                fwriter.WriteLine(System.Text.Json.JsonSerializer.Serialize(array, options));
             }
         }
 
-        public static Person[] DoDeserializeJson( string filePath)
+        public static List<Person> DeserializeJson( string filePath)
         {
-            Person[] mas;
-
             using (FileStream freader = new FileStream(filePath, FileMode.OpenOrCreate))
             {
-                mas = JsonSerializer.Deserialize<Person[]>(freader);
-                return mas;
+                return JsonSerializer.Deserialize<List<Person>>(freader);
             }
         }
 
-        public static long GetChildAverage(Person[] personTwo)
+        public static long GetChildAverage(List<Person> array)
         {
             long ageAvg, sum = 0;
 
-            foreach (Person p in personTwo)
+            foreach (Person p in array)
             {
                 if (p.Children != null)
                 {
@@ -182,16 +180,16 @@ namespace App
                 }
             }
 
-            ageAvg = sum / personTwo.Length;
+            ageAvg = sum / array.Count;
 
             return ageAvg;
         }
 
-        public static int GetCreditCardsCount(Person[] personTwo)
+        public static int GetCreditCardsCount(List<Person> array)
         {
             int count = 0;
 
-            foreach (Person p in personTwo)
+            foreach (Person p in array)
             {
                 if (p.CreditCardNumbers != null)
                 {
